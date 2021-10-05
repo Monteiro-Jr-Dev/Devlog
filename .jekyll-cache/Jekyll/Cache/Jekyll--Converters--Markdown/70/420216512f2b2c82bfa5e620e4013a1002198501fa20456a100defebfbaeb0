@@ -1,0 +1,52 @@
+I"�<p>As zombies are the main enemies in the game, making their behaviour interesting was one of my main priorities. They are the enemies the player will be facing more frequently, so I wanted to make their interactions fun and fair.</p>
+
+<h2 id="movement">Movement</h2>
+<hr />
+
+<p>The first step was implementing a basic ‘follow the player’ mechanic, which calculated the direction to the player and moved towards it.<br />
+Next I had to transform the game map into a graph and implement a pathfinding algorithm so the enemies could navigate through it avoiding obstacles. Of course there are great ready-to-use solutions, such as <a href="https://arongranberg.com/astar/">A* Pathfinding Project</a>, but I wanted to implement from scratch so I could learn from it. 
+I went for the simplest implementation, I used each unity cell as one node and each node keeps track of its adjacent nodes. I then used the redblob’s explanation on <a href="https://www.redblobgames.com/pathfinding/a-star/introduction.html">A* Algorithm</a>, which is great btw, to draft a pathfinding script, and voilà, the enemies can now travel through the map.<br />
+After trimming the edges and polishing the code, I’m really satisfied with the result.</p>
+
+<p><code class="language-plaintext highlighter-rouge">IMAGE: Squared -&gt; Soft pathfinding</code></p>
+
+<h2 id="sensing-the-world">Sensing the world</h2>
+<hr />
+
+<p>With the movement part done, it was time to make the zombies aware of their surroundings. First I gave them sight, implemented different FOVs and sigh distace. The wider the angle, the shorter the seeing distance. Of course the enemies cannot see behind them, so I  decided to program some touch sensibility, so the enemies could feel when the player touched them. <br />And lastly, I implemented some hearing capabilities. I was not sure about this one because I didn’t want it to make the game unfair to the player. But after implementing it, I really liked the result. Basically, the enemies can hear some of the player’s actions, like shooting, if they are close enough. This makes the enemies go in the direction of the noise. As long as I make it clear for the player which actions make noise and give them proper feedback, this mechanic can increase the player’s tension during game and makes them play more carefully.</p>
+
+<p><code class="language-plaintext highlighter-rouge">IMAGE: FOVs and distances scketch</code></p>
+
+<h2 id="attacking">Attacking</h2>
+<hr />
+
+<p>Attacking the player was an important point for me, the main things I always kept in mind was telegraphing and feedback. I’ve played so many games that don’t make it clear when enemy is going to attack, what’s the attack effective range or even how much damage is inflicted on the player. When I started designing the attacks I had in mind three different attack patterns:</p>
+<ul>
+  <li>Low damage, frequently used and hard to avoid.</li>
+  <li>Medium damage, medium frequency and avoidable.</li>
+  <li>High damage, hardly used and avoidable.</li>
+</ul>
+
+<p>These were the base attack matrix for the zombie’s attacks. From these came:</p>
+<ul>
+  <li>Acid attack: No telegraph. If the player passes in close range of a zombie, there is a high chance of being attacked with acid. The damage caused is small, but the attack is fast and instantaneous.</li>
+  <li>Tackle attack: Has a clear telegraph, meaning the player can avoid it. Is used if the player is in close range and causes medium damage. There is a random chance the zombie will do a double tackle, causing double damage to the player.</li>
+  <li>Grab and bite: The zombie will… you guessed it, grab and bite. It has a small chance of happening, and only if the player is touching the zombie (being in close range isn’t enough) and will incapacitate the player’s movement for the entire duration of the attack (this is very frustrating for the player, in a good way) and will, of course, cause a lot of damage to the player.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">IMAGE: Zombie gif attacking</code></p>
+
+<h2 id="behaviours">Behaviours</h2>
+<hr />
+
+<p>The enemies can move, sense the world and attack, now it’s time to implement some behaviours. For this I used unity’s FSM, which saved me a lot of time by not having to implement it by hand. At this point all I did was define the probability of each action happening based on the enemies’ input. With the probability of each event hapenning defined, just run a <code class="language-plaintext highlighter-rouge">Random.Range();</code> function to choose which action the enemy is performing next. I use this for things approach for things like:</p>
+<ul>
+  <li>Chance of each attack happening (Acid, single tackle, double tackle, grab)</li>
+  <li>Chance of sprinting towards the player</li>
+  <li>Chance of patroling the room</li>
+</ul>
+
+<p>To add more variety, I added difficulties and changed the probabilities based on it.</p>
+
+<p><code class="language-plaintext highlighter-rouge">IMAGE: AI FSM</code></p>
+:ET
