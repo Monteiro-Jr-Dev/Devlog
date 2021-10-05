@@ -1,11 +1,11 @@
-title: "Valmir Monteiro's Devlog"
-description: "Valmir Monteiro's Devlog"
+title: Hacker-Blog
+description: "A Jekyll Blog Theme For Hackers"
 author:
-  name: "Valmir Monteiro"
-  #email: "someone@somewebsite.somedomain"
-  url: "http://monteirovj.github.io/"
+  name: "SomeHacker"
+  email: "someone@somewebsite.somedomain"
+  url: "https://ashishchaudhary.in/hacker-blog"
 
-baseurl: / 
+baseurl: /
 
 source: .
 destination: ./_site
@@ -28,5 +28,5 @@ plugins:
   - jekyll-sitemap
 
 # Custom variables
-owner : "Valmir Monteiro"
-year : "2021"
+owner : "SomeHacker"
+year : "2020"

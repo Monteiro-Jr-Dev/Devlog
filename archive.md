@@ -1,6 +1,6 @@
 ---
 layout: page
-
+title: Archive
 ---
 
 <section>
@@ -8,7 +8,11 @@ layout: page
 
     {% capture currentyear %}{{ 'now' | date: "%Y" }}{% endcapture %}
     {% capture firstpostyear %}{{ site.posts[0].date | date: '%Y' }}{% endcapture %}
-    <h3>{{ firstpostyear }}</h3>
+    {% if currentyear == firstpostyear %}
+        <h3>This year's posts</h3>
+    {% else %}  
+        <h3>{{ firstpostyear }}</h3>
+    {% endif %}
 
     {%for post in site.posts %}
       {% unless post.next %}
